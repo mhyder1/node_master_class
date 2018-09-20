@@ -1,0 +1,12 @@
+Uptime monitoring application
+
+Features: 
+1. API listens on a port, accepts incoming requests for GET, POST, PUT, DELETE and HEAD
+2. Client can connect, create new user, edit/delete user
+3. User can sign in and get a token
+4. User can sign out and invalidate token
+5. Signed in user can use token to create check tasks (5 max)
+6. Signed in user can edit or delete check tasks
+7. Workers perform 'checks' at set times and send alerts to users (once/minute)
+
+* app uses file system instead of a db
