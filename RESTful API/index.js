@@ -5,6 +5,7 @@ Primary file for API
 //Dependencies
 const http = require('http');
 const url = require('url');
+const StringDecoder = require('string_decoder').StringDecoder;
 
 //The server should respond to all requests with a string
 const server = http.createServer((req, res) => {
@@ -22,14 +23,30 @@ const server = http.createServer((req, res) => {
     // Get http method i.e. GET, POST, PUT, DELETE
     const method = req.method.toLowerCase();
     
-    //Get the headers as an object
+    // Get the headers as an object
     const headers = req.headers;
-
-    // Send the response to client
+    
+    // Get the payload, if any
+    const decoder = new StringDecoder('UTF-8');
+    
+    // Buffer starts off empty
+    let buffer = '';
+    
+    // As data comes in gradually add it to the buffer
+    req.on('data', data => { // bind to data event of stream
+        buffer += decoder.write(data);
+    });
+    
+    // When data is finish being received... 
+    req.on('end', () => {
+        buffer += decoder.end();
+        
+    // ...send the response to client
     res.end('Hello World\n');
 
-    // Log the request path to the server
-    console.log('Request received with these headers', headers);
+    // Log the request path to the server (sent in the body)
+    console.log('Request received with this payload: ', buffer);
+    })
 })
 
 
