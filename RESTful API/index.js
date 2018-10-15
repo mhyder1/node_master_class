@@ -53,7 +53,7 @@ const server = http.createServer((req, res) => {
         'payload': buffer
     }
         
-    // Route the resuest to the handler specified in the router
+    // Route the request to the handler specified in the router
     chosenHandler(data, function(statusCode, payload) {
         // Use the status code called back by the handler, or default to 200
         statusCode = typeof(statusCode) === 'number' ? statusCode : 200;
